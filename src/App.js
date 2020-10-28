@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useEffect} from "react";
 
-function App() {
+import { useBarcode } from 'react-barcodes';
+
+
+export default function App() {
+  const { inputRef } = useBarcode({
+    value: '12345 6789',
+    options: {
+      background: '#ccffff',
+    }
+  });
+
+  const imageOptions = {
+    scale: 5,
+    encoderOptions: 1,
+    backgroundColor: 'white',
+  }
+
+  const saveSvgAsPng = require('save-svg-as-png');
+
+  useEffect(() => {
+    saveSvgAsPng.saveSvgAsPng(document.getElementById('svg-chart'), 'shapes.png', imageOptions);
+  });
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>react-barcodes</h1>
+      <svg id={"svg-chart"} ref={inputRef} />;
     </div>
   );
 }
-
-export default App;
